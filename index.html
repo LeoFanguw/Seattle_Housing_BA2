@@ -12,6 +12,7 @@
     <link rel="stylesheet"
         href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css"
         type="text/css" />
+    <link href="css/hamburgers.css" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -43,7 +44,11 @@
             border-radius: .5em;
             box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
             margin: 5px;
-            bottom: 0px;
+            bottom: 20px;
+            right: 0px;
+        }
+        button{
+            float: right;
         }
     </style>
 </head>
@@ -51,10 +56,28 @@
 <body>
     <div id="map"></div>
     <div id="geocoder" class="geocoder"></div>
-    <div class="sidePanel">
+    <button id= "hamburger" class="hamburger hamburger--elastic-r is-active" type="button" onclick="handleHamburger()">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+    <div id="sidePanel" class="sidePanel">
 
     </div>
     <script>
+        const status = ["hamburger-active"]
+        function handleHamburger() {
+            if (status[0] == "hamburger-active") {
+                status[0] = "hamburger"
+                document.getElementById("hamburger").classList.remove("is-active");
+                document.getElementById("sidePanel").style.display = "none";
+            } else if (status[0] == "hamburger") {
+                status[0] = "hamburger-active"
+                document.getElementById("hamburger").classList.add("is-active");
+                document.getElementById("sidePanel").style.display = "block";
+            }
+
+        }
         mapboxgl.accessToken =
             'pk.eyJ1IjoiYWl3aGVuIiwiYSI6ImNsYTM0MzRtZjBpYzMzdm1ueWk3a2x2anEifQ.IdE46ncjNqO9e9dsxZSFIw';
         const map = new mapboxgl.Map({
@@ -108,7 +131,7 @@
 
             map.addSource('flood', {
                 'type': 'geojson',
-                'data': 'data/Flood_Zones.geojson'
+                'data': 'assets/Flood_Zones.geojson'
             });
 
             map.addLayer({
