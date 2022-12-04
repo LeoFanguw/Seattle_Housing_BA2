@@ -24,12 +24,36 @@
             bottom: 0;
             width: 100%;
         }
+        .geocoder {
+            position: absolute;
+            z-index: 1;
+            left: 1em;
+            top: 1em;
+        }
+        .mapboxgl-ctrl-geocoder {
+            width: 300px
+        }
+        .sidePanel{
+            float: right;
+            position: absolute;
+            height: 400px;
+            width: 400px;
+            background-color: white;
+            z-index: 1;
+            border-radius: .5em;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+            margin: 5px;
+            bottom: 0px;
+        }
     </style>
 </head>
 
 <body>
     <div id="map"></div>
+    <div id="geocoder" class="geocoder"></div>
+    <div class="sidePanel">
 
+    </div>
     <script>
         mapboxgl.accessToken =
             'pk.eyJ1IjoiYWl3aGVuIiwiYSI6ImNsYTM0MzRtZjBpYzMzdm1ueWk3a2x2anEifQ.IdE46ncjNqO9e9dsxZSFIw';
@@ -40,25 +64,18 @@
             zoom: 10.5 // Starting zoom level
         });
 
-        const marker = new mapboxgl.Marker() // Initialize a new marker
-            .setLngLat([-122.3321, 47.6062]) // Marker [lng, lat] coordinates
-            .addTo(map); // Add the marker to the map
-
         const geocoder = new MapboxGeocoder({
             // Initialize the geocoder
             accessToken: mapboxgl.accessToken, // Set the access token
             mapboxgl: mapboxgl, // Set the mapbox-gl instance
             marker: false, // Do not use the default marker style
-            placeholder: 'Search for housing places in Seattle', // Placeholder text for the search bar
+            placeholder: 'Search for places in Seattle', // Placeholder text for the search bar
             bbox: [-122.462227, 47.473977, -122.188256, 47.752635], // Bounnding box
             proximity: {
                 longitude: -122.3321,
                 latitude: 47.6062
             }
         });
-
-        // Add the geocoder to the map
-        map.addControl(geocoder);
 
         // After the map style has loaded on the page,
         // add a source layer and default styling for a single point
@@ -87,9 +104,25 @@
                         }
                     });
                 }
-                
             )
 
+            map.addSource('flood', {
+                'type': 'geojson',
+                'data': 'data/Flood_Zones.geojson'
+            });
+
+            map.addLayer({
+                    'id': 'flood-layer',
+                    'type': 'fill',
+                    'source': 'flood',
+                    'paint': {
+                        'fill-color': '#6495ED',
+                        'fill-opacity': 0.8
+                    }
+            });
+
+            document.getElementById('map').offsetWidth
+            document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
             // Listen for the `result` event from the Geocoder // `result` event is triggered when a user makes a selection
             //  Add a marker at the result's coordinates
             geocoder.on('result', (event) => {
