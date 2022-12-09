@@ -25,16 +25,19 @@
             bottom: 0;
             width: 100%;
         }
+
         .geocoder {
             position: absolute;
             z-index: 1;
             left: 1em;
             top: 1em;
         }
+
         .mapboxgl-ctrl-geocoder {
             width: 300px
         }
-        .sidePanel{
+
+        .sidePanel {
             float: right;
             position: absolute;
             height: 400px;
@@ -47,7 +50,8 @@
             bottom: 20px;
             right: 0px;
         }
-        button{
+
+        button {
             float: right;
         }
     </style>
@@ -56,16 +60,18 @@
 <body>
     <div id="map"></div>
     <div id="geocoder" class="geocoder"></div>
-    <button id= "hamburger" class="hamburger hamburger--elastic-r is-active" type="button" onclick="handleHamburger()">
+    <button id="hamburger" class="hamburger hamburger--elastic-r is-active" type="button" onclick="handleHamburger()">
         <span class="hamburger-box">
-            <span class="hamburger-inner"></span>
+            <span class="hamburger-inner">
+            </span>
         </span>
     </button>
     <div id="sidePanel" class="sidePanel">
-
+        <div id="info"></div>
     </div>
     <script>
         const status = ["hamburger-active"]
+
         function handleHamburger() {
             if (status[0] == "hamburger-active") {
                 status[0] = "hamburger"
@@ -78,6 +84,7 @@
             }
 
         }
+
         mapboxgl.accessToken =
             'pk.eyJ1IjoiYWl3aGVuIiwiYSI6ImNsYTM0MzRtZjBpYzMzdm1ueWk3a2x2anEifQ.IdE46ncjNqO9e9dsxZSFIw';
         const map = new mapboxgl.Map({
@@ -100,41 +107,44 @@
             }
         });
 
-        // After the map style has loaded on the page,
-        // add a source layer and default styling for a single point
-        map.on('load', () => {
-            map.loadImage(
-                'img/pin.png',
-                (error, image) => {
-                    if (error) throw error;
-                    // Add the image to the map style.
-                    map.addImage('location', image);
-                    map.addSource('single-point', {
-                        'type': 'geojson',
-                        'data': {
-                            'type': 'FeatureCollection',
-                            'features': []
-                        }
-                    });
+        // load data and add as layer
+        async function geojsonFetch() {
+            let response = await fetch('assets/schools.geojson');
+            let school_data = await response.json();
 
-                    map.addLayer({
-                        'id': 'point',
-                        'source': 'single-point',
-                        'type': 'symbol',
-                        'layout': {
-                            'icon-image': 'location', // reference the image
-                            'icon-size': 0.07
-                        }
-                    });
-                }
-            )
+            map.on('load', () => {
+                map.loadImage(
+                    'img/pin.png',
+                    (error, image) => {
+                        if (error) throw error;
+                        // Add the image to the map style.
+                        map.addImage('location', image);
+                        map.addSource('single-point', {
+                            'type': 'geojson',
+                            'data': {
+                                'type': 'FeatureCollection',
+                                'features': []
+                            }
+                        });
 
-            map.addSource('flood', {
-                'type': 'geojson',
-                'data': 'assets/Flood_Zones.geojson'
-            });
+                        map.addLayer({
+                            'id': 'point',
+                            'source': 'single-point',
+                            'type': 'symbol',
+                            'layout': {
+                                'icon-image': 'location', // reference the image
+                                'icon-size': 0.07
+                            }
+                        });
+                    }
+                )
 
-            map.addLayer({
+                map.addSource('flood', {
+                    'type': 'geojson',
+                    'data': 'assets/Flood_Zones.geojson'
+                });
+
+                map.addLayer({
                     'id': 'flood-layer',
                     'type': 'fill',
                     'source': 'flood',
@@ -142,16 +152,35 @@
                         'fill-color': '#6495ED',
                         'fill-opacity': 0.8
                     }
-            });
+                });
 
-            document.getElementById('map').offsetWidth
-            document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
-            // Listen for the `result` event from the Geocoder // `result` event is triggered when a user makes a selection
-            //  Add a marker at the result's coordinates
-            geocoder.on('result', (event) => {
-                map.getSource('single-point').setData(event.result.geometry);
+                map.addSource('schools', {
+                    'type': 'geojson',
+                    'data': school_data
+                });
+
+                map.addLayer({
+                    'id': 'school-layer',
+                    'type': 'circle',
+                    'source': 'schools',
+                    paint: {
+                        'circle-radius': 12,
+                        'circle-color': '#007cbf',
+                        'circle-opacity': 0.5
+                    }
+                });
+
+                document.getElementById('map').offsetWidth
+                document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+                // Listen for the `result` event from the Geocoder // `result` event is triggered when a user makes a selection
+                //  Add a marker at the result's coordinates
+                geocoder.on('result', (event) => {
+                    map.getSource('single-point').setData(event.result.geometry);
+                });
             });
-        });
+        }
+
+        geojsonFetch();
     </script>
 </body>
 
