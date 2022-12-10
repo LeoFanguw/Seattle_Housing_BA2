@@ -35,7 +35,6 @@
             width: 300px
         }
         .sidePanel{
-            float: right;
             position: absolute;
             height: 400px;
             width: 400px;
@@ -46,26 +45,147 @@
             margin: 5px;
             bottom: 20px;
             right: 0px;
+            opacity: 0.9;
         }
         button{
             float: right;
+        }
+
+        /* The switch - the box around the slider */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* The slider */
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        #flood {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        #floodText{
+            float: left;
+            font-size: 18px;
+        }
+        #floodSwitch{
+            margin-top: 10.5px;
+            float: right;
+        }
+
+        #test{
+            z-index: 1;
+        }
+
+        #cleanbutton {
+            position: absolute;
+            left: 330px;
+            top: 1em;
+            display: inline-block;
+            padding: 8px 12px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px gray;
+        }
+
+        #cleanbutton:hover {background-color: #3e8e41}
+
+        #cleanbutton:active {
+            background-color: #3e8e41;
+            box-shadow: 0 1px #666;
+            transform: translateY(1px);
         }
     </style>
 </head>
 
 <body>
     <div id="map"></div>
-    <div id="geocoder" class="geocoder"></div>
-    <button id= "hamburger" class="hamburger hamburger--elastic-r is-active" type="button" onclick="handleHamburger()">
-        <span class="hamburger-box">
-            <span class="hamburger-inner"></span>
-        </span>
-    </button>
+        <div id="geocoder" class="geocoder">
+        </div>
+        <button id="cleanbutton" type="button" onclick="handleClean()">Clean Pins</button>
+        <button id= "hamburger" class="hamburger hamburger--elastic-r is-active" type="button" onclick="handleHamburger()">
+            <span class="hamburger-box">
+                <span class="hamburger-inner"></span>
+            </span>
+        </button>
     <div id="sidePanel" class="sidePanel">
-
+        <div id="flood">
+            <p id="floodText">Showing Flood Zone</p>
+            <label id="floodSwitch" class="switch">
+                <input type="checkbox" onclick="handlefloodSwitch()" checked>
+                <span class="slider round"></span>
+            </label>
+        </div>
     </div>
     <script>
-        const status = ["hamburger-active"]
+        //current website page status
+        const status = ["hamburger-active", "flood-active"];
+        const pins = {
+                        'type': 'FeatureCollection',
+                        'features': []
+                    };
+
         function handleHamburger() {
             if (status[0] == "hamburger-active") {
                 status[0] = "hamburger"
@@ -76,8 +196,27 @@
                 document.getElementById("hamburger").classList.add("is-active");
                 document.getElementById("sidePanel").style.display = "block";
             }
-
         }
+
+        function handleClean() {
+            pins.features = [];
+            map.getSource('pin-data').setData(pins);
+        }
+
+        function handlefloodSwitch() {
+            if (status[1] == "flood-active") {
+                status[1] = "flood"
+                map.setLayoutProperty('flood-layer', 'visibility', 'none');
+            } else if (status[1] == "flood") {
+                status[1] = "flood-active"
+                map.setLayoutProperty(
+                    'flood-layer',
+                    'visibility',
+                    'visible'
+                );
+            }
+        };
+
         mapboxgl.accessToken =
             'pk.eyJ1IjoiYWl3aGVuIiwiYSI6ImNsYTM0MzRtZjBpYzMzdm1ueWk3a2x2anEifQ.IdE46ncjNqO9e9dsxZSFIw';
         const map = new mapboxgl.Map({
@@ -109,17 +248,14 @@
                     if (error) throw error;
                     // Add the image to the map style.
                     map.addImage('location', image);
-                    map.addSource('single-point', {
+                    map.addSource('pin-data', {
                         'type': 'geojson',
-                        'data': {
-                            'type': 'FeatureCollection',
-                            'features': []
-                        }
+                        'data': pins
                     });
 
                     map.addLayer({
                         'id': 'point',
-                        'source': 'single-point',
+                        'source': 'pin-data',
                         'type': 'symbol',
                         'layout': {
                             'icon-image': 'location', // reference the image
@@ -139,17 +275,38 @@
                     'type': 'fill',
                     'source': 'flood',
                     'paint': {
-                        'fill-color': '#6495ED',
-                        'fill-opacity': 0.8
+                        'fill-color': [
+                            'step',
+                            ['get', 'SHAPE_Area'],
+                            '#c6dbef',
+                            0.0003,
+                            '#9ecae1',
+                            41.15,
+                            '#6baed6',
+                            540.19,
+                            '#4292c6',
+                            22390.1,
+                            '#2171b5',
+                            15888148,
+                            '#084594',
+                        ],
+                        'fill-outline-color': '#F0FFFF',
+                        'fill-opacity': 0.8,
                     }
             });
 
-            document.getElementById('map').offsetWidth
             document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
             // Listen for the `result` event from the Geocoder // `result` event is triggered when a user makes a selection
             //  Add a marker at the result's coordinates
             geocoder.on('result', (event) => {
-                map.getSource('single-point').setData(event.result.geometry);
+                // console.log(event.result.geometry);
+                pins.features.push({
+                    "type": "Feature",
+                    "properties": {},
+                    "geometry": event.result.geometry
+                });
+                // console.log(pins);
+                map.getSource('pin-data').setData(pins);
             });
         });
     </script>
