@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="utf-8" />
     <title>Seattle Housing</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.js"></script>
-    <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css" rel="stylesheet" />
-    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js">
-    </script>
-    <link rel="stylesheet"
-        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css"
-        type="text/css" />
-    <link href="css/hamburgers.css" rel="stylesheet">
+    <link
+      href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css"
+      type="text/css"
+    />
+    <link href="css/hamburgers.css" rel="stylesheet" />
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
+      body {
+        margin: 0;
+        padding: 0;
+      }
 
         #map {
             position: absolute;
@@ -114,17 +117,19 @@
             border-radius: 50%;
         }
 
-        #flood {
+        .toggleLayer {
+            width: 100%;
             margin-left: 10px;
-            margin-right: 10px;
         }
-        #floodText{
-            float: left;
+
+        #toggleText {
             font-size: 18px;
         }
-        #floodSwitch{
-            margin-top: 10.5px;
-            float: right;
+        
+        #toggleSwitch {
+            position: absolute;
+            right: 10px;
+            margin-top: -20px;
         }
 
         #test{
@@ -157,9 +162,9 @@
             transform: translateY(1px);
         }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="map"></div>
         <div id="geocoder" class="geocoder">
         </div>
@@ -170,17 +175,45 @@
             </span>
         </button>
     <div id="sidePanel" class="sidePanel">
-        <div id="flood">
-            <p id="floodText">Showing Flood Zone</p>
-            <label id="floodSwitch" class="switch">
-                <input type="checkbox" onclick="handlefloodSwitch()" checked>
-                <span class="slider round"></span>
-            </label>
-        </div>
+        <table class = "toggleLayer">
+            <tr>
+                <td>
+                    <p id="toggleText">Showing Flood Zone</p>
+                </td>
+                <td>
+                    <label id="toggleSwitch" class="switch">
+                    <input type="checkbox" onclick="handleSwitch('flood-layer')" checked>
+                    <span class="slider round"></span>
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p id="toggleText">Showing Schools</p>
+                </td>
+                <td>
+                    <label id="toggleSwitch" class="switch">
+                    <input type="checkbox" onclick="handleSwitch('school-layer')" checked>
+                    <span class="slider round"></span>
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p id="toggleText">Showing House Sales</p>
+                </td>
+                <td>
+                    <label id="toggleSwitch" class="switch">
+                    <input type="checkbox" onclick="handleSwitch('house-layer')" checked>
+                    <span class="slider round"></span>
+                    </label>
+                </td>
+            </tr>
+        </table>
     </div>
     <script>
         //current website page status
-        const status = ["hamburger-active", "flood-active"];
+        const status = ["hamburger-active", "flood-layer-active", "school-layer-active", "house-layer-active"];
         const pins = {
                         'type': 'FeatureCollection',
                         'features': []
@@ -203,14 +236,22 @@
             map.getSource('pin-data').setData(pins);
         }
 
-        function handlefloodSwitch() {
-            if (status[1] == "flood-active") {
-                status[1] = "flood"
-                map.setLayoutProperty('flood-layer', 'visibility', 'none');
-            } else if (status[1] == "flood") {
-                status[1] = "flood-active"
+        function handleSwitch(layer) {
+            if (layer == "flood-layer") {
+                index = 1
+            } else if (layer == "school-layer") {
+                index = 2
+            } else if (layer == "house-layer") {
+                index = 3
+            }
+            
+            if (status[index] == layer + "-active") {
+                status[index] = layer
+                map.setLayoutProperty(layer, 'visibility', 'none');
+            } else if (status[index] == layer) {
+                status[index] = layer + "-active"
                 map.setLayoutProperty(
-                    'flood-layer',
+                    layer,
                     'visibility',
                     'visible'
                 );
@@ -226,18 +267,26 @@
             zoom: 10.5 // Starting zoom level
         });
 
-        const geocoder = new MapboxGeocoder({
-            // Initialize the geocoder
-            accessToken: mapboxgl.accessToken, // Set the access token
-            mapboxgl: mapboxgl, // Set the mapbox-gl instance
-            marker: false, // Do not use the default marker style
-            placeholder: 'Search for places in Seattle', // Placeholder text for the search bar
-            bbox: [-122.462227, 47.473977, -122.188256, 47.752635], // Bounnding box
-            proximity: {
-                longitude: -122.3321,
-                latitude: 47.6062
-            }
-        });
+      const geocoder = new MapboxGeocoder({
+        // Initialize the geocoder
+        accessToken: mapboxgl.accessToken, // Set the access token
+        mapboxgl: mapboxgl, // Set the mapbox-gl instance
+        marker: false, // Do not use the default marker style
+        placeholder: "Search for places in Seattle", // Placeholder text for the search bar
+        bbox: [-122.462227, 47.473977, -122.188256, 47.752635], // Bounnding box
+        proximity: {
+          longitude: -122.3321,
+          latitude: 47.6062,
+        },
+      });
+
+      // load data and add as layer
+      async function geojsonFetch() {
+        let response = await fetch("assets/schools.geojson");
+        let school_data = await response.json();
+
+        let houseResponse = await fetch("assets/kc_house_data_clean.geojson");
+        let house_data = await houseResponse.json();
 
         // After the map style has loaded on the page,
         // add a source layer and default styling for a single point
@@ -295,6 +344,40 @@
                     }
             });
 
+            //school layer
+            map.addSource("schools", {
+                type: "geojson",
+                data: school_data,
+            });
+
+            map.addLayer({
+                id: "school-layer",
+                type: "circle",
+                source: "schools",
+                paint: {
+                "circle-radius": 12,
+                "circle-color": "#007cbf",
+                "circle-opacity": 0.5,
+                },
+            });
+
+            // house layer
+            map.addSource("houses", {
+                type: "geojson",
+                data: house_data,
+            });
+
+            map.addLayer({
+                id: "house-layer",
+                type: "circle",
+                source: "houses",
+                paint: {
+                "circle-radius": 9,
+                "circle-color": "green",
+                "circle-opacity": 0.5,
+                },
+            });
+
             document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
             // Listen for the `result` event from the Geocoder // `result` event is triggered when a user makes a selection
             //  Add a marker at the result's coordinates
@@ -309,7 +392,9 @@
                 map.getSource('pin-data').setData(pins);
             });
         });
-    </script>
-</body>
+    }
 
+      geojsonFetch();
+    </script>
+  </body>
 </html>
