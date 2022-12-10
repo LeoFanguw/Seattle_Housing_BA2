@@ -1,187 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="utf-8" />
     <title>Seattle Housing</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.js"></script>
-    <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css" rel="stylesheet" />
-    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js">
-    </script>
-    <link rel="stylesheet"
-        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css"
-        type="text/css" />
-    <link href="css/hamburgers.css" rel="stylesheet">
+    <link
+      href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css"
+      type="text/css"
+    />
+    <link href="css/hamburgers.css" rel="stylesheet" />
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
+      body {
+        margin: 0;
+        padding: 0;
+      }
 
-        #map {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 100%;
-        }
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
 
-        .geocoder {
-            position: absolute;
-            z-index: 1;
-            left: 1em;
-            top: 1em;
-        }
+      .geocoder {
+        position: absolute;
+        z-index: 1;
+        left: 1em;
+        top: 1em;
+      }
 
-        .mapboxgl-ctrl-geocoder {
-            width: 300px
-        }
+      .mapboxgl-ctrl-geocoder {
+        width: 300px;
+      }
 
-        .sidePanel {
-            float: right;
-            position: absolute;
-            height: 400px;
-            width: 400px;
-            background-color: white;
-            z-index: 1;
-            border-radius: .5em;
-            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-            margin: 5px;
-            bottom: 20px;
-            right: 0px;
-        }
+      .sidePanel {
+        float: right;
+        position: absolute;
+        height: 400px;
+        width: 400px;
+        background-color: white;
+        z-index: 1;
+        border-radius: 0.5em;
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+          rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+        margin: 5px;
+        bottom: 20px;
+        right: 0px;
+      }
 
-        button {
-            float: right;
-        }
+      button {
+        float: right;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="map"></div>
     <div id="geocoder" class="geocoder"></div>
-    <button id="hamburger" class="hamburger hamburger--elastic-r is-active" type="button" onclick="handleHamburger()">
-        <span class="hamburger-box">
-            <span class="hamburger-inner">
-            </span>
-        </span>
+    <button
+      id="hamburger"
+      class="hamburger hamburger--elastic-r is-active"
+      type="button"
+      onclick="handleHamburger()"
+    >
+      <span class="hamburger-box">
+        <span class="hamburger-inner"> </span>
+      </span>
     </button>
     <div id="sidePanel" class="sidePanel">
-        <div id="info"></div>
+      <div id="info"></div>
     </div>
     <script>
-        const status = ["hamburger-active"]
+      const status = ["hamburger-active"];
 
-        function handleHamburger() {
-            if (status[0] == "hamburger-active") {
-                status[0] = "hamburger"
-                document.getElementById("hamburger").classList.remove("is-active");
-                document.getElementById("sidePanel").style.display = "none";
-            } else if (status[0] == "hamburger") {
-                status[0] = "hamburger-active"
-                document.getElementById("hamburger").classList.add("is-active");
-                document.getElementById("sidePanel").style.display = "block";
-            }
-
+      function handleHamburger() {
+        if (status[0] == "hamburger-active") {
+          status[0] = "hamburger";
+          document.getElementById("hamburger").classList.remove("is-active");
+          document.getElementById("sidePanel").style.display = "none";
+        } else if (status[0] == "hamburger") {
+          status[0] = "hamburger-active";
+          document.getElementById("hamburger").classList.add("is-active");
+          document.getElementById("sidePanel").style.display = "block";
         }
+      }
 
-        mapboxgl.accessToken =
-            'pk.eyJ1IjoiYWl3aGVuIiwiYSI6ImNsYTM0MzRtZjBpYzMzdm1ueWk3a2x2anEifQ.IdE46ncjNqO9e9dsxZSFIw';
-        const map = new mapboxgl.Map({
-            container: 'map', // Container ID
-            style: 'mapbox://styles/mapbox/streets-v11', // Map style to use
-            center: [-122.3321, 47.6062], // Starting position [lng, lat]
-            zoom: 10.5 // Starting zoom level
-        });
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiYWl3aGVuIiwiYSI6ImNsYTM0MzRtZjBpYzMzdm1ueWk3a2x2anEifQ.IdE46ncjNqO9e9dsxZSFIw";
+      const map = new mapboxgl.Map({
+        container: "map", // Container ID
+        style: "mapbox://styles/mapbox/streets-v11", // Map style to use
+        center: [-122.3321, 47.6062], // Starting position [lng, lat]
+        zoom: 10.5, // Starting zoom level
+      });
 
-        const geocoder = new MapboxGeocoder({
-            // Initialize the geocoder
-            accessToken: mapboxgl.accessToken, // Set the access token
-            mapboxgl: mapboxgl, // Set the mapbox-gl instance
-            marker: false, // Do not use the default marker style
-            placeholder: 'Search for places in Seattle', // Placeholder text for the search bar
-            bbox: [-122.462227, 47.473977, -122.188256, 47.752635], // Bounnding box
-            proximity: {
-                longitude: -122.3321,
-                latitude: 47.6062
-            }
-        });
+      const geocoder = new MapboxGeocoder({
+        // Initialize the geocoder
+        accessToken: mapboxgl.accessToken, // Set the access token
+        mapboxgl: mapboxgl, // Set the mapbox-gl instance
+        marker: false, // Do not use the default marker style
+        placeholder: "Search for places in Seattle", // Placeholder text for the search bar
+        bbox: [-122.462227, 47.473977, -122.188256, 47.752635], // Bounnding box
+        proximity: {
+          longitude: -122.3321,
+          latitude: 47.6062,
+        },
+      });
 
-        // load data and add as layer
-        async function geojsonFetch() {
-            let response = await fetch('assets/schools.geojson');
-            let school_data = await response.json();
+      // load data and add as layer
+      async function geojsonFetch() {
+        let response = await fetch("assets/schools.geojson");
+        let school_data = await response.json();
 
-            map.on('load', () => {
-                map.loadImage(
-                    'img/pin.png',
-                    (error, image) => {
-                        if (error) throw error;
-                        // Add the image to the map style.
-                        map.addImage('location', image);
-                        map.addSource('single-point', {
-                            'type': 'geojson',
-                            'data': {
-                                'type': 'FeatureCollection',
-                                'features': []
-                            }
-                        });
+        let houseResponse = await fetch("assets/kc_house_data_clean.geojson");
+        let house_data = await houseResponse.json();
 
-                        map.addLayer({
-                            'id': 'point',
-                            'source': 'single-point',
-                            'type': 'symbol',
-                            'layout': {
-                                'icon-image': 'location', // reference the image
-                                'icon-size': 0.07
-                            }
-                        });
-                    }
-                )
-
-                map.addSource('flood', {
-                    'type': 'geojson',
-                    'data': 'assets/Flood_Zones.geojson'
-                });
-
-                map.addLayer({
-                    'id': 'flood-layer',
-                    'type': 'fill',
-                    'source': 'flood',
-                    'paint': {
-                        'fill-color': '#6495ED',
-                        'fill-opacity': 0.8
-                    }
-                });
-
-                map.addSource('schools', {
-                    'type': 'geojson',
-                    'data': school_data
-                });
-
-                map.addLayer({
-                    'id': 'school-layer',
-                    'type': 'circle',
-                    'source': 'schools',
-                    paint: {
-                        'circle-radius': 12,
-                        'circle-color': '#007cbf',
-                        'circle-opacity': 0.5
-                    }
-                });
-
-                document.getElementById('map').offsetWidth
-                document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
-                // Listen for the `result` event from the Geocoder // `result` event is triggered when a user makes a selection
-                //  Add a marker at the result's coordinates
-                geocoder.on('result', (event) => {
-                    map.getSource('single-point').setData(event.result.geometry);
-                });
+        map.on("load", () => {
+          map.loadImage("img/pin.png", (error, image) => {
+            if (error) throw error;
+            // Add the image to the map style.
+            map.addImage("location", image);
+            map.addSource("single-point", {
+              type: "geojson",
+              data: {
+                type: "FeatureCollection",
+                features: [],
+              },
             });
-        }
 
-        geojsonFetch();
+            map.addLayer({
+              id: "point",
+              source: "single-point",
+              type: "symbol",
+              layout: {
+                "icon-image": "location", // reference the image
+                "icon-size": 0.07,
+              },
+            });
+          });
+
+          map.addSource("flood", {
+            type: "geojson",
+            data: "assets/Flood_Zones.geojson",
+          });
+
+          map.addLayer({
+            id: "flood-layer",
+            type: "fill",
+            source: "flood",
+            paint: {
+              "fill-color": "#6495ED",
+              "fill-opacity": 0.8,
+            },
+          });
+
+          map.addSource("schools", {
+            type: "geojson",
+            data: school_data,
+          });
+
+          map.addLayer({
+            id: "school-layer",
+            type: "circle",
+            source: "schools",
+            paint: {
+              "circle-radius": 12,
+              "circle-color": "#007cbf",
+              "circle-opacity": 0.5,
+            },
+          });
+
+          // house layer
+          map.addSource("houses", {
+            type: "geojson",
+            data: house_data,
+          });
+
+          map.addLayer({
+            id: "house-layer",
+            type: "circle",
+            source: "houses",
+            paint: {
+              "circle-radius": 9,
+              "circle-color": "green",
+              "circle-opacity": 0.5,
+            },
+          });
+
+          document.getElementById("map").offsetWidth;
+          document.getElementById("geocoder").appendChild(geocoder.onAdd(map));
+          // Listen for the `result` event from the Geocoder // `result` event is triggered when a user makes a selection
+          //  Add a marker at the result's coordinates
+          geocoder.on("result", (event) => {
+            map.getSource("single-point").setData(event.result.geometry);
+          });
+        });
+      }
+
+      geojsonFetch();
     </script>
-</body>
-
+  </body>
 </html>
