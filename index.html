@@ -22,250 +22,272 @@
         padding: 0;
       }
 
-        #map {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 100%;
-        }
-        .geocoder {
-            position: absolute;
-            z-index: 1;
-            left: 1em;
-            top: 1em;
-        }
-        .mapboxgl-ctrl-geocoder {
-            width: 300px
-        }
-        .sidePanel{
-            position: absolute;
-            height: 400px;
-            width: 400px;
-            background-color: white;
-            z-index: 1;
-            border-radius: .5em;
-            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-            margin: 5px;
-            bottom: 20px;
-            right: 0px;
-            opacity: 0.9;
-        }
-        button{
-            float: right;
-        }
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+      .geocoder {
+        position: absolute;
+        z-index: 1;
+        left: 1em;
+        top: 1em;
+      }
+      .mapboxgl-ctrl-geocoder {
+        width: 300px;
+      }
+      .sidePanel {
+        position: absolute;
+        height: 400px;
+        width: 400px;
+        background-color: white;
+        z-index: 1;
+        border-radius: 0.5em;
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+          rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+        margin: 5px;
+        bottom: 20px;
+        right: 0px;
+        opacity: 0.9;
+      }
+      button {
+        float: right;
+      }
 
-        /* The switch - the box around the slider */
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
+      /* The switch - the box around the slider */
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+      }
 
-        /* Hide default HTML checkbox */
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
+      /* Hide default HTML checkbox */
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
 
-        /* The slider */
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            -webkit-transition: .4s;
-            transition: .4s;
-        }
+      /* The slider */
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+      }
 
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            -webkit-transition: .4s;
-            transition: .4s;
-        }
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+      }
 
-        input:checked + .slider {
-            background-color: #2196F3;
-        }
+      input:checked + .slider {
+        background-color: #2196f3;
+      }
 
-        input:focus + .slider {
-            box-shadow: 0 0 1px #2196F3;
-        }
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196f3;
+      }
 
-        input:checked + .slider:before {
-            -webkit-transform: translateX(26px);
-            -ms-transform: translateX(26px);
-            transform: translateX(26px);
-        }
+      input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+      }
 
-        /* Rounded sliders */
-        .slider.round {
-            border-radius: 34px;
-        }
+      /* Rounded sliders */
+      .slider.round {
+        border-radius: 34px;
+      }
 
-        .slider.round:before {
-            border-radius: 50%;
-        }
+      .slider.round:before {
+        border-radius: 50%;
+      }
 
-        .toggleLayer {
-            width: 100%;
-            margin-left: 10px;
-        }
+      .toggleLayer {
+        width: 100%;
+        margin-left: 10px;
+      }
 
-        #toggleText {
-            font-size: 18px;
-        }
-        
-        #toggleSwitch {
-            position: absolute;
-            right: 10px;
-            margin-top: -20px;
-        }
+      #toggleText {
+        font-size: 18px;
+      }
 
-        #test{
-            z-index: 1;
-        }
+      #toggleSwitch {
+        position: absolute;
+        right: 10px;
+        margin-top: -20px;
+      }
 
-        #cleanbutton {
-            position: absolute;
-            left: 330px;
-            top: 1em;
-            display: inline-block;
-            padding: 8px 12px;
-            font-size: 16px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            outline: none;
-            color: #fff;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 2px gray;
-        }
+      #test {
+        z-index: 1;
+      }
 
-        #cleanbutton:hover {background-color: #3e8e41}
+      #cleanbutton {
+        position: absolute;
+        left: 330px;
+        top: 1em;
+        display: inline-block;
+        padding: 8px 12px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #4caf50;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 2px gray;
+      }
 
-        #cleanbutton:active {
-            background-color: #3e8e41;
-            box-shadow: 0 1px #666;
-            transform: translateY(1px);
-        }
+      #cleanbutton:hover {
+        background-color: #3e8e41;
+      }
+
+      #cleanbutton:active {
+        background-color: #3e8e41;
+        box-shadow: 0 1px #666;
+        transform: translateY(1px);
+      }
     </style>
   </head>
 
   <body>
     <div id="map"></div>
-        <div id="geocoder" class="geocoder">
-        </div>
-        <button id="cleanbutton" type="button" onclick="handleClean()">Clean Pins</button>
-        <button id= "hamburger" class="hamburger hamburger--elastic-r is-active" type="button" onclick="handleHamburger()">
-            <span class="hamburger-box">
-                <span class="hamburger-inner"></span>
-            </span>
-        </button>
+    <div id="geocoder" class="geocoder"></div>
+    <button id="cleanbutton" type="button" onclick="handleClean()">
+      Clean Pins
+    </button>
+    <button
+      id="hamburger"
+      class="hamburger hamburger--elastic-r is-active"
+      type="button"
+      onclick="handleHamburger()"
+    >
+      <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
+      </span>
+    </button>
     <div id="sidePanel" class="sidePanel">
-        <table class = "toggleLayer">
-            <tr>
-                <td>
-                    <p id="toggleText">Showing Flood Zone</p>
-                </td>
-                <td>
-                    <label id="toggleSwitch" class="switch">
-                    <input type="checkbox" onclick="handleSwitch('flood-layer')" checked>
-                    <span class="slider round"></span>
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p id="toggleText">Showing Schools</p>
-                </td>
-                <td>
-                    <label id="toggleSwitch" class="switch">
-                    <input type="checkbox" onclick="handleSwitch('school-layer')" checked>
-                    <span class="slider round"></span>
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p id="toggleText">Showing House Sales</p>
-                </td>
-                <td>
-                    <label id="toggleSwitch" class="switch">
-                    <input type="checkbox" onclick="handleSwitch('house-layer')" checked>
-                    <span class="slider round"></span>
-                    </label>
-                </td>
-            </tr>
-        </table>
+      <table class="toggleLayer">
+        <tr>
+          <td>
+            <p id="toggleText">Showing Flood Zone</p>
+          </td>
+          <td>
+            <label id="toggleSwitch" class="switch">
+              <input
+                type="checkbox"
+                onclick="handleSwitch('flood-layer')"
+                checked
+              />
+              <span class="slider round"></span>
+            </label>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p id="toggleText">Showing Schools</p>
+          </td>
+          <td>
+            <label id="toggleSwitch" class="switch">
+              <input
+                type="checkbox"
+                onclick="handleSwitch('school-layer')"
+                checked
+              />
+              <span class="slider round"></span>
+            </label>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p id="toggleText">Showing House Sales</p>
+          </td>
+          <td>
+            <label id="toggleSwitch" class="switch">
+              <input
+                type="checkbox"
+                onclick="handleSwitch('house-layer')"
+                checked
+              />
+              <span class="slider round"></span>
+            </label>
+          </td>
+        </tr>
+      </table>
     </div>
     <script>
-        //current website page status
-        const status = ["hamburger-active", "flood-layer-active", "school-layer-active", "house-layer-active"];
-        const pins = {
-                        'type': 'FeatureCollection',
-                        'features': []
-                    };
+      //current website page status
+      const status = [
+        "hamburger-active",
+        "flood-layer-active",
+        "school-layer-active",
+        "house-layer-active",
+      ];
+      const pins = {
+        type: "FeatureCollection",
+        features: [],
+      };
 
-        function handleHamburger() {
-            if (status[0] == "hamburger-active") {
-                status[0] = "hamburger"
-                document.getElementById("hamburger").classList.remove("is-active");
-                document.getElementById("sidePanel").style.display = "none";
-            } else if (status[0] == "hamburger") {
-                status[0] = "hamburger-active"
-                document.getElementById("hamburger").classList.add("is-active");
-                document.getElementById("sidePanel").style.display = "block";
-            }
+      function handleHamburger() {
+        if (status[0] == "hamburger-active") {
+          status[0] = "hamburger";
+          document.getElementById("hamburger").classList.remove("is-active");
+          document.getElementById("sidePanel").style.display = "none";
+        } else if (status[0] == "hamburger") {
+          status[0] = "hamburger-active";
+          document.getElementById("hamburger").classList.add("is-active");
+          document.getElementById("sidePanel").style.display = "block";
+        }
+      }
+
+      function handleClean() {
+        pins.features = [];
+        map.getSource("pin-data").setData(pins);
+      }
+
+      function handleSwitch(layer) {
+        if (layer == "flood-layer") {
+          index = 1;
+        } else if (layer == "school-layer") {
+          index = 2;
+        } else if (layer == "house-layer") {
+          index = 3;
         }
 
-        function handleClean() {
-            pins.features = [];
-            map.getSource('pin-data').setData(pins);
+        if (status[index] == layer + "-active") {
+          status[index] = layer;
+          map.setLayoutProperty(layer, "visibility", "none");
+        } else if (status[index] == layer) {
+          status[index] = layer + "-active";
+          map.setLayoutProperty(layer, "visibility", "visible");
         }
+      }
 
-        function handleSwitch(layer) {
-            if (layer == "flood-layer") {
-                index = 1
-            } else if (layer == "school-layer") {
-                index = 2
-            } else if (layer == "house-layer") {
-                index = 3
-            }
-            
-            if (status[index] == layer + "-active") {
-                status[index] = layer
-                map.setLayoutProperty(layer, 'visibility', 'none');
-            } else if (status[index] == layer) {
-                status[index] = layer + "-active"
-                map.setLayoutProperty(
-                    layer,
-                    'visibility',
-                    'visible'
-                );
-            }
-        };
-
-        mapboxgl.accessToken =
-            'pk.eyJ1IjoiYWl3aGVuIiwiYSI6ImNsYTM0MzRtZjBpYzMzdm1ueWk3a2x2anEifQ.IdE46ncjNqO9e9dsxZSFIw';
-        const map = new mapboxgl.Map({
-            container: 'map', // Container ID
-            style: 'mapbox://styles/mapbox/streets-v11', // Map style to use
-            center: [-122.3321, 47.6062], // Starting position [lng, lat]
-            zoom: 10.5 // Starting zoom level
-        });
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiYWl3aGVuIiwiYSI6ImNsYTM0MzRtZjBpYzMzdm1ueWk3a2x2anEifQ.IdE46ncjNqO9e9dsxZSFIw";
+      const map = new mapboxgl.Map({
+        container: "map", // Container ID
+        style: "mapbox://styles/mapbox/streets-v11", // Map style to use
+        center: [-122.3321, 47.6062], // Starting position [lng, lat]
+        zoom: 10.5, // Starting zoom level
+      });
 
       const geocoder = new MapboxGeocoder({
         // Initialize the geocoder
@@ -290,109 +312,120 @@
 
         // After the map style has loaded on the page,
         // add a source layer and default styling for a single point
-        map.on('load', () => {
-            map.loadImage(
-                'img/pin.png',
-                (error, image) => {
-                    if (error) throw error;
-                    // Add the image to the map style.
-                    map.addImage('location', image);
-                    map.addSource('pin-data', {
-                        'type': 'geojson',
-                        'data': pins
-                    });
-
-                    map.addLayer({
-                        'id': 'point',
-                        'source': 'pin-data',
-                        'type': 'symbol',
-                        'layout': {
-                            'icon-image': 'location', // reference the image
-                            'icon-size': 0.07
-                        }
-                    });
-                }
-            )
-
-            map.addSource('flood', {
-                'type': 'geojson',
-                'data': 'assets/Flood_Zones.geojson'
+        map.on("load", () => {
+          map.loadImage("img/pin.png", (error, image) => {
+            if (error) throw error;
+            // Add the image to the map style.
+            map.addImage("location", image);
+            map.addSource("pin-data", {
+              type: "geojson",
+              data: pins,
             });
 
             map.addLayer({
-                    'id': 'flood-layer',
-                    'type': 'fill',
-                    'source': 'flood',
-                    'paint': {
-                        'fill-color': [
-                            'step',
-                            ['get', 'SHAPE_Area'],
-                            '#c6dbef',
-                            0.0003,
-                            '#9ecae1',
-                            41.15,
-                            '#6baed6',
-                            540.19,
-                            '#4292c6',
-                            22390.1,
-                            '#2171b5',
-                            15888148,
-                            '#084594',
-                        ],
-                        'fill-outline-color': '#F0FFFF',
-                        'fill-opacity': 0.8,
-                    }
+              id: "point",
+              source: "pin-data",
+              type: "symbol",
+              layout: {
+                "icon-image": "location", // reference the image
+                "icon-size": 0.07,
+              },
             });
+          });
 
-            //school layer
-            map.addSource("schools", {
-                type: "geojson",
-                data: school_data,
-            });
+          map.addSource("flood", {
+            type: "geojson",
+            data: "assets/Flood_Zones.geojson",
+          });
 
-            map.addLayer({
-                id: "school-layer",
-                type: "circle",
-                source: "schools",
-                paint: {
-                "circle-radius": 12,
-                "circle-color": "#007cbf",
-                "circle-opacity": 0.5,
-                },
-            });
+          map.addLayer({
+            id: "flood-layer",
+            type: "fill",
+            source: "flood",
+            paint: {
+              "fill-color": [
+                "step",
+                ["get", "SHAPE_Area"],
+                "#c6dbef",
+                0.0003,
+                "#9ecae1",
+                41.15,
+                "#6baed6",
+                540.19,
+                "#4292c6",
+                22390.1,
+                "#2171b5",
+                15888148,
+                "#084594",
+              ],
+              "fill-outline-color": "#F0FFFF",
+              "fill-opacity": 0.8,
+            },
+          });
 
-            // house layer
-            map.addSource("houses", {
-                type: "geojson",
-                data: house_data,
-            });
+          //school layer
+          map.addSource("schools", {
+            type: "geojson",
+            data: school_data,
+          });
 
-            map.addLayer({
-                id: "house-layer",
-                type: "circle",
-                source: "houses",
-                paint: {
-                "circle-radius": 9,
-                "circle-color": "green",
-                "circle-opacity": 0.5,
-                },
-            });
+          map.addLayer({
+            id: "school-layer",
+            type: "circle",
+            source: "schools",
+            paint: {
+              "circle-radius": 12,
+              "circle-color": "#007cbf",
+              "circle-opacity": 0.5,
+            },
+          });
 
-            document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
-            // Listen for the `result` event from the Geocoder // `result` event is triggered when a user makes a selection
-            //  Add a marker at the result's coordinates
-            geocoder.on('result', (event) => {
-                // console.log(event.result.geometry);
-                pins.features.push({
-                    "type": "Feature",
-                    "properties": {},
-                    "geometry": event.result.geometry
-                });
-                // console.log(pins);
-                map.getSource('pin-data').setData(pins);
+          // house layer
+          map.addSource("houses", {
+            type: "geojson",
+            data: house_data,
+          });
+
+          map.addLayer({
+            id: "house-layer",
+            type: "circle",
+            source: "houses",
+            paint: {
+              "circle-radius": 6,
+              "circle-opacity": 0.5,
+              "circle-color": [
+                "interpolate",
+                ["linear"],
+                ["get", "price per sqft living"],
+                200,
+                ["to-color", "#0eff00"],
+                300,
+                ["to-color", "#1fc600"],
+                400,
+                ["to-color", "#089000"],
+                500,
+                ["to-color", "#0a5d00"],
+                600,
+                ["to-color", "#063b00"],
+              ],
+            },
+          });
+
+          document.getElementById("geocoder").appendChild(geocoder.onAdd(map));
+          // Listen for the `result` event from the Geocoder // `result` event is triggered when a user makes a selection
+          //  Add a marker at the result's coordinates
+          geocoder.on("result", (event) => {
+            // console.log(event.result.geometry);
+            pins.features.push({
+              type: "Feature",
+              properties: {},
+              geometry: event.result.geometry,
             });
+            // console.log(pins);
+            map.getSource("pin-data").setData(pins);
+          });
         });
-    }
+      }
 
       geojsonFetch();
     </script>
