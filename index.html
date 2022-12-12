@@ -214,6 +214,17 @@
           </label>
         </td>
       </tr>
+      <tr>
+        <td>
+          <p id="toggleText">Showing Crimes</p>
+        </td>
+        <td>
+          <label id="toggleSwitch" class="switch">
+            <input type="checkbox" onclick="handleSwitch('crime-layer')" checked />
+            <span class="slider round"></span>
+          </label>
+        </td>
+      </tr>
     </table>
   </div>
   <script>
@@ -223,6 +234,7 @@
       "flood-layer-active",
       "school-layer-active",
       "house-layer-active",
+      "crime-layer-active"
     ];
     const pins = {
       type: "FeatureCollection",
@@ -253,6 +265,8 @@
         index = 2;
       } else if (layer == "house-layer") {
         index = 3;
+      } else if (layer == "crime-layer") {
+        index = 4;
       }
 
       if (status[index] == layer + "-active") {
@@ -404,6 +418,30 @@
               ["to-color", "#063b00"],
             ],
           },
+        });
+
+        // crime layer
+        map.addSource("crime", {
+          type: "geojson",
+          data: "assets/crime_data.geojson",
+        });
+
+        map.addLayer({
+          id: "crime-layer",
+          type: "circle",
+          source: "crime",
+          paint: {
+            "circle-radius": 4,
+            "circle-opacity": 0.6,
+            "circle-color": [
+              "match",
+              ["get", "Offense Parent Group"],
+              "ARSON", "#fa1616", // red
+              "ASSAULT OFFENSES", "#7247f5", // purple
+              "LARCENY-THEFT", "#594539", // brown
+              "#edeb6f", // ROBBERY // yellow
+            ]
+          }
         });
 
         document.getElementById("geocoder").appendChild(geocoder.onAdd(map));
