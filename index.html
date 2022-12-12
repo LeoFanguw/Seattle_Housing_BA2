@@ -191,7 +191,7 @@
         float: left;
         font-size: small;
       }
-      
+
       #legend span {
         font-size: smaller;
       }
@@ -677,7 +677,7 @@
               )
               .addTo(map);
           });
-
+          
           // changes cursor to pointer when hovering house
           map.on("mouseenter", "house-layer", () => {
             map.getCanvas().style.cursor = "pointer";
@@ -685,6 +685,40 @@
 
           // changes cursor back when not hovering house
           map.on("mouseleave", "house-layer", () => {
+            map.getCanvas().style.cursor = "";
+          });
+
+          // popup when crime is hovered
+
+          const popup = new mapboxgl.Popup({
+              closeButton: false,
+              closeOnClick: false
+            });
+
+          map.on("mouseenter", "crime-layer", (e) => {
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const crime = e.features[0].properties["Offense Parent Group"];
+            
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+              coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+            
+            popup.setLngLat(coordinates)
+                 .setHTML("<h3>Crime Type </h3> <p>" + crime + "</p>")
+                 .addTo(map);
+          });
+
+          map.on("mouseleave", "crime-layer", () => {
+            popup.remove();
+          });
+
+          // changes cursor to pointer when hovering crime
+          map.on("mouseenter", "crime-layer", () => {
+            map.getCanvas().style.cursor = "pointer";
+          });
+
+          // changes cursor back when not hovering crime
+          map.on("mouseleave", "crime-layer", () => {
             map.getCanvas().style.cursor = "";
           });
         });
