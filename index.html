@@ -318,8 +318,8 @@
 
         if (status[index] == layer + "-active") {
           status[index] = layer;
-          document.getElementById("legend" + index).style.display = "none";
           map.setLayoutProperty(layer, "visibility", "none");
+          document.getElementById("legend" + index).style.display = "none";
         } else if (status[index] == layer) {
           status[index] = layer + "-active";
           map.setLayoutProperty(layer, "visibility", "visible");
