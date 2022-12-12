@@ -177,12 +177,17 @@
         margin-right: 5px;
       }
 
-      #legend {
+      #legend1 {
         float: left;
+        font-size: small;
       }
 
+      #legend3 {
+        float: left;
+        font-size: small;
+      }
       #legend span {
-        font-size: 5px;
+        font-size: smaller;
       }
     </style>
   </head>
@@ -220,7 +225,7 @@
             </label>
           </td>
         </tr>
-        <tr id="legend"></tr>
+        <tr id="legend1"></tr>
         <tr>
           <td>
             <p id="toggleText">Showing Schools</p>
@@ -313,10 +318,12 @@
 
         if (status[index] == layer + "-active") {
           status[index] = layer;
+          document.getElementById("legend" + index).style.display = "none";
           map.setLayoutProperty(layer, "visibility", "none");
         } else if (status[index] == layer) {
           status[index] = layer + "-active";
           map.setLayoutProperty(layer, "visibility", "visible");
+          document.getElementById("legend" + index).style.display = "block";
         }
       }
 
@@ -325,8 +332,8 @@
       const map = new mapboxgl.Map({
         container: "map", // Container ID
         style: "mapbox://styles/mapbox/streets-v11", // Map style to use
-        center: [-122.3321, 47.6062], // Starting position [lng, lat]
-        zoom: 10.5, // Starting zoom level
+        center: [-122.3035, 47.6553], // Starting position [lng, lat]
+        zoom: 14, // Starting zoom level
       });
 
       const geocoder = new MapboxGeocoder({
@@ -405,11 +412,11 @@
 
           // create legend
           const floodLayers = [
-            "<41.15",
-            "<540.19",
-            "<22390.1",
-            "<15888148",
-            ">15888148",
+            "~41.15",
+            "~540.19",
+            "~22390.1",
+            "~15888148",
+            "16000000+",
           ];
 
           const floodColors = [
@@ -420,8 +427,8 @@
             "#084594",
           ];
 
-          const legend = document.getElementById("legend");
-          legend.innerHTML = "<b>Areas (square foot)</b><br></br>";
+          const legend1 = document.getElementById("legend1");
+          legend1.innerHTML = "<b>Areas (square foot)</b><br></br>";
           floodLayers.forEach((layer, i) => {
             const color = floodColors[i];
             const item = document.createElement("td");
@@ -433,7 +440,7 @@
             value.innerHTML = `${layer}`;
             item.appendChild(key);
             item.appendChild(value);
-            legend.appendChild(item);
+            legend1.appendChild(item);
           });
 
           //school layer
@@ -447,7 +454,7 @@
             type: "circle",
             source: "schools",
             paint: {
-              "circle-radius": 12,
+              "circle-radius": 14,
               "circle-color": "#ffffff",
             },
           });
@@ -475,8 +482,8 @@
             type: "circle",
             source: "houses",
             paint: {
-              "circle-radius": 6,
-              "circle-opacity": 0.7,
+              "circle-radius": 10,
+              "circle-opacity": 0.8,
               "circle-color": [
                 "interpolate",
                 ["linear"],
@@ -532,8 +539,8 @@
             type: "circle",
             source: "crime",
             paint: {
-              "circle-radius": 4,
-              "circle-opacity": 0.6,
+              "circle-radius": 6,
+              "circle-opacity": 0.8,
               "circle-color": [
                 "match",
                 ["get", "Offense Parent Group"],
