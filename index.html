@@ -494,22 +494,22 @@
               "circle-color": [
                 "interpolate",
                 ["linear"],
-                ["get", "price per sqft living"],
-                100,
+                ["get", "price"],
+                100000,
                 ["to-color", "#0eff00"],
-                200,
+                300000,
                 ["to-color", "#1fc600"],
-                300,
+                500000,
                 ["to-color", "#089000"],
-                400,
+                700000,
                 ["to-color", "#0a5d00"],
-                500,
+                900000,
                 ["to-color", "#063b00"],
               ],
             },
           });
 
-          const houseLayers = ["~100", "~200", "~300", "~400", "~500+"];
+          const houseLayers = ["~100k", "~300k", "~500k", "~700k", "~900k+"];
 
           const houseColors = [
             "#0eff00",
@@ -520,7 +520,7 @@
           ];
 
           const legend3 = document.getElementById("legend3");
-          legend3.innerHTML = "<b>Cost ($ per square foot)</b><br></br>";
+          legend3.innerHTML = "<b>Price ($)</b><br></br>";
           houseLayers.forEach((layer, i) => {
             const color = houseColors[i];
             const item = document.createElement("td");
@@ -563,35 +563,30 @@
           });
 
           const crimeLayers = [
-          "Arson",
-          "Assault Offenses",
-          "Larceny",
-          "Robbery"
-        ];
+            "Arson",
+            "Assault Offenses",
+            "Larceny",
+            "Robbery",
+          ];
 
-        const crimeColors = [
-          "#fa1616",
-          "#7247f5",
-          "#594539",
-          "#edeb6f"
-        ];
+          const crimeColors = ["#fa1616", "#7247f5", "#594539", "#edeb6f"];
 
-        const legend4 = document.getElementById("legend4");
-        legend4.innerHTML = "<b>Crime Type</b><br></br>";
-        crimeLayers.forEach((layer, i) => {
+          const legend4 = document.getElementById("legend4");
+          legend4.innerHTML = "<b>Crime Type</b><br></br>";
+          crimeLayers.forEach((layer, i) => {
             const color = crimeColors[i];
-            const item = document.createElement('td');
-            const key = document.createElement('span');
-            key.className = 'legend-key';
+            const item = document.createElement("td");
+            const key = document.createElement("span");
+            key.className = "legend-key";
             key.style.backgroundColor = color;
 
-            const value = document.createElement('span');
+            const value = document.createElement("span");
             value.innerHTML = `${layer}`;
             item.appendChild(key);
             item.appendChild(value);
             legend4.appendChild(item);
-        });
-        
+          });
+
           document.getElementById("geocoder").appendChild(geocoder.onAdd(map));
           // Listen for the `result` event from the Geocoder // `result` event is triggered when a user makes a selection
           //  Add a marker at the result's coordinates
@@ -677,7 +672,7 @@
               )
               .addTo(map);
           });
-          
+
           // changes cursor to pointer when hovering house
           map.on("mouseenter", "house-layer", () => {
             map.getCanvas().style.cursor = "pointer";
@@ -691,21 +686,22 @@
           // popup when crime is hovered
 
           const popup = new mapboxgl.Popup({
-              closeButton: false,
-              closeOnClick: false
-            });
+            closeButton: false,
+            closeOnClick: false,
+          });
 
           map.on("mouseenter", "crime-layer", (e) => {
             const coordinates = e.features[0].geometry.coordinates.slice();
             const crime = e.features[0].properties["Offense Parent Group"];
-            
+
             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
               coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
-            
-            popup.setLngLat(coordinates)
-                 .setHTML("<h3>Crime Type </h3> <p>" + crime + "</p>")
-                 .addTo(map);
+
+            popup
+              .setLngLat(coordinates)
+              .setHTML("<h3>Crime Type </h3> <p>" + crime + "</p>")
+              .addTo(map);
           });
 
           map.on("mouseleave", "crime-layer", () => {
