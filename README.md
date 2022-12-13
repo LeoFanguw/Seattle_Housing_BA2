@@ -20,6 +20,8 @@
 
 ### Screenshots
 
+![Screenshots](img/Screenshots.png)
+
 ### Main functions
 - The main functions of this webmap application are to provide users with a comprehensive view of a specific location and to allow them to easily find and visualize important information about an address. Since the target audiences include people looking at the housing market, we assume our audiences want to view multiple addresses at the same time. For example, our audiences may want to compare the housing conditions between two different places, so the functionality of adding multiple pins at the same time is necessary. We’ve changed the default geocoder in Mapbox, now every address our audiences searched for will be saved, and they can use the clean button to clean their search history.
 
