@@ -42,7 +42,7 @@
 
       .sidePanel {
         position: absolute;
-        height: 400px;
+        height: 500px;
         width: 400px;
         background-color: white;
         z-index: 1;
@@ -182,6 +182,11 @@
         font-size: small;
       }
 
+      #legend2 {
+        float: left;
+        font-size: small;
+      }
+
       #legend3 {
         float: left;
         font-size: small;
@@ -247,6 +252,8 @@
             </label>
           </td>
         </tr>
+        <tr id="legend2"></tr>
+        <tr>
         <tr>
           <td>
             <p id="toggleText">Showing House Sales</p>
@@ -282,6 +289,7 @@
       </table>
     </div>
     <script>
+
       //current website page status
       const status = [
         "hamburger-active",
@@ -476,7 +484,33 @@
             ],
           });
 
-          map.setPaintProperty("school-layer", "circle-opacity", 0.5);
+          map.setPaintProperty("school-layer", "circle-opacity", 0.8);
+
+          const schoolLayers = [
+            "Public",
+            "Private",
+          ];
+
+          const schoolColors = [
+            "#0080ff",
+            "#9d00ff",
+          ];
+
+          const legend2 = document.getElementById("legend2");
+          legend2.innerHTML = "<b>School Type</b><br></br>";
+          schoolLayers.forEach((layer, i) => {
+            const color = schoolColors[i];
+            const item = document.createElement("td");
+            const key = document.createElement("span");
+            key.className = "legend-key";
+            key.style.backgroundColor = color;
+
+            const value = document.createElement("span");
+            value.innerHTML = `${layer}`;
+            item.appendChild(key);
+            item.appendChild(value);
+            legend2.appendChild(item);
+          });
 
           // house layer
           map.addSource("houses", {
@@ -547,7 +581,6 @@
             source: "crime",
             paint: {
               "circle-radius": 6,
-              "circle-opacity": 0.8,
               "circle-color": [
                 "match",
                 ["get", "Offense Parent Group"],
